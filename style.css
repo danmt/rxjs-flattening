@@ -1,0 +1,27 @@
+h1, h2 {
+  font-family: Lato;
+}
+
+.canvas {
+  width: 800px;
+  height: 300px;
+  position: absolute;
+  left: 150px;
+  border: 1px black solid;
+  overflow: hidden;
+}
+
+.skull {
+  background-image: url('https://cdn.pixabay.com/photo/2012/04/12/19/37/skull-and-crossbones-30325_960_720.png');
+  height: 120px;
+  width: 120px;
+  background-size: contain;
+  position: absolute;
+  left: -120px;
+  top: 60px;
+}
+
+.selector {
+  display: block; 
+  margin: 10px;
+}
