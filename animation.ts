@@ -7,15 +7,16 @@ export const duration = (t) => defer(() => {
     map(() => Date.now()),
     map(t1 => t1 - t0),
     map((dt: number) => dt / t),
-    map((t: number) => t <.5 ? 2 * t * t : -1 + (4 - 2 * t) * t),
     takeWhile(n => n <= 1)
   )
 });
 
-export const distance = (x, t) => duration(t).pipe(map(frame => frame * x));
-
-export const moveRight = (id, x, t = 1000) => duration(t).pipe(
+export const distance = (x, t) => duration(t).pipe(
+  map((t: number) => t <.5 ? 2 * t * t : -1 + (4 - 2 * t) * t),
   map((t: number) => t * x),
+);
+
+export const moveRight = (id, x, t = 1000) => distance(x,t).pipe(
   tap((x: number) => document.getElementById(id).style.left = x + 'px'),
   takeLast(1),
 );
