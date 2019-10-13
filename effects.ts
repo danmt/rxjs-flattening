@@ -7,6 +7,7 @@ const canvasElem = document.getElementById('canvas');
 const addedSpan = document.getElementById('added') as HTMLSpanElement;
 const pendingSpan = document.getElementById('pending') as HTMLSpanElement;
 const receivedSpan = document.getElementById('received') as HTMLSpanElement;
+const distance = 900;
 
 const Added$ = actions$.pipe(
   filter(({ type }) => type === Actions.ActionTypes.Add),
@@ -70,7 +71,7 @@ const Sent$ = actions$.pipe(
 const concatenated$ = actions$.pipe(
   filter(({ type }) => type === Actions.ActionTypes.ConcatSent),
   concatMap((action: Actions.ConcatSent) => 
-    moveRight(action.id, 820, action.speed).pipe(
+    moveRight(action.id, distance, action.speed).pipe(
       map(() => new Actions.ConcatReceived(action.id))
     )
   ),
@@ -79,7 +80,7 @@ const concatenated$ = actions$.pipe(
 const merged$ = actions$.pipe(
   filter(({ type }) => type === Actions.ActionTypes.MergeSent),
   mergeMap((action: Actions.MergeSent) =>
-    moveRight(action.id, 820, action.speed).pipe(
+    moveRight(action.id, distance, action.speed).pipe(
       map(() => new Actions.Received())
     )
   ),
@@ -88,7 +89,7 @@ const merged$ = actions$.pipe(
 const exhausted$ = actions$.pipe(
   filter(({ type }) => type === Actions.ActionTypes.ExhaustSent),
   exhaustMap((action: Actions.ExhaustSent) =>
-    moveRight(action.id, 820, action.speed).pipe(
+    moveRight(action.id, distance, action.speed).pipe(
       map(() => new Actions.Received())
     )
   )
@@ -97,8 +98,8 @@ const exhausted$ = actions$.pipe(
 const switched$ = actions$.pipe(
   filter(({ type }) => type === Actions.ActionTypes.SwitchSent),
   switchMap((action: Actions.SwitchSent) => 
-    moveRight(action.id, 820, action.speed).pipe(
-      finalize(() => document.getElementById(action.id).style.left = '820px'),
+    moveRight(action.id, distance, action.speed).pipe(
+      finalize(() => document.getElementById(action.id).remove()),
       map(() => new Actions.Received()),
     )
   )

@@ -18,7 +18,7 @@ const getSerieType = () => serieTypeSelector.options[serieTypeSelector.selectedI
 
 // Actions dispatchers
 const add$ = fromEvent(addButton, 'click').pipe(
-  map(() => new Actions.Add(`skull-${uuid()}`))
+  map(() => new Actions.Add(uuid()))
 );
 const send$ = fromEvent(sendButton, 'click').pipe(
   withLatestFrom(store$, (_, state: State) => state),
