@@ -3,56 +3,56 @@ import { scan, shareReplay, tap } from 'rxjs/operators';
 import * as Actions from './actions';
 
 export interface State {
-  skulls: string[];
-  addedSkulls: number;
-  pendingSkulls: number;
-  receivedSkulls: number;
+  circles: string[];
+  added: number;
+  pending: number;
+  received: number;
 }
 
 const initialState: State = { 
-  skulls: [], 
-  addedSkulls: 0, 
-  pendingSkulls: 0, 
-  receivedSkulls: 0 
+  circles: [], 
+  added: 0, 
+  pending: 0, 
+  received: 0 
 };
 
 export const reducer = (state, action) => {
   switch (action.type) {
-    case Actions.ActionTypes.AddSkull:
+    case Actions.ActionTypes.Add:
       return { 
         ...state,
-        addedSkulls: state.addedSkulls + 1,
-        skulls: [
-          ...state.skulls, 
+        added: state.added + 1,
+        circles: [
+          ...state.circles, 
           action.id
         ]
       };
-    case Actions.ActionTypes.SendSkull:
+    case Actions.ActionTypes.Send:
       return { 
         ...state,
-        pendingSkulls: state.pendingSkulls + 1
+        pending: state.pending + 1
       };
-    case Actions.ActionTypes.SwitchSkullSent:
-    case Actions.ActionTypes.ExhaustSkullSent:
-    case Actions.ActionTypes.MergeSkullSent:
+    case Actions.ActionTypes.SwitchSent:
+    case Actions.ActionTypes.ExhaustSent:
+    case Actions.ActionTypes.MergeSent:
       return { 
         ...state,
-        pendingSkulls: state.pendingSkulls - 1,
-        addedSkulls: state.addedSkulls - 1,
-        skulls: state.skulls.filter((skull) => skull !== action.id)
+        pending: state.pending - 1,
+        added: state.added - 1,
+        circles: state.circles.filter((skull) => skull !== action.id)
       };
-    case Actions.ActionTypes.SkullReceived:
+    case Actions.ActionTypes.Received:
       return { 
         ...state,
-        receivedSkulls: state.receivedSkulls + 1
+        received: state.received + 1
       };
-    case Actions.ActionTypes.ConcatSkullReceived:
+    case Actions.ActionTypes.ConcatReceived:
       return { 
         ...state,
-        pendingSkulls: state.pendingSkulls - 1,
-        addedSkulls: state.addedSkulls - 1,
-        receivedSkulls: state.receivedSkulls + 1,
-        skulls: state.skulls.filter((skull) => skull !== action.id)
+        pending: state.pending - 1,
+        added: state.added - 1,
+        received: state.received + 1,
+        circles: state.circles.filter((skull) => skull !== action.id)
       };
     default:
       return state;

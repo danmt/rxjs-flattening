@@ -3,113 +3,92 @@ interface Action {
 }
 
 export enum ActionTypes {
-  AddSkull = 'Add Skull',
-  SendSkull = 'Send Skull',
-  ConcatSkullSent = 'Concat Skull Sent',
-  MergeSkullSent = 'Merge Skull Sent',
-  ExhaustSkullSent = 'Exhaust Skull Sent',
-  SwitchSkullSent = 'Switch Skull Sent',
-  MergeSkullReceived = 'Merge Skull Received',
-  ExhaustSkullReceived = 'Exhaust Skull Received',
-  SwitchSkullReceived = 'Switch Skull Received',
-  ConcatSkullReceived = 'Concat Skull Received',
-  SkullReceived = 'Skull Received',
-  SkullAdded = 'Skull Added',
-  SkullRemoved = 'Skull Removed',
-  AddedSkullsChanged = 'Added Skulls Changed',
-  PendingSkullsChanged = 'Pending Skulls Changed',
-  ReceivedSkullsChanged = 'Received Skulls Changed'
+  Add = 'Add',
+  Send = 'Send',
+  ConcatSent = 'Concat Sent',
+  MergeSent = 'Merge Sent',
+  ExhaustSent = 'Exhaust Sent',
+  SwitchSent = 'Switch Sent',
+  ConcatReceived = 'Concat Received',
+  Received = ' Received',
+  Added = ' Added',
+  Removed = ' Removed',
+  AddedChanged = 'Added Changed',
+  PendingChanged = 'Pending Changed',
+  ReceivedChanged = 'Received Changed'
 }
  
-export class AddSkull implements Action {
-  public readonly type = ActionTypes.AddSkull;
+export class Add implements Action {
+  public readonly type = ActionTypes.Add;
   constructor(public readonly id: string) {}
 }
 
-export class SendSkull implements Action {
-  public readonly type = ActionTypes.SendSkull;
+export class Send implements Action {
+  public readonly type = ActionTypes.Send;
   constructor(public readonly id: string, public readonly serieType: string, public readonly speed: number) {}
 }
 
-export class MergeSkullSent implements Action {
-  public readonly type = ActionTypes.MergeSkullSent;
+export class MergeSent implements Action {
+  public readonly type = ActionTypes.MergeSent;
   constructor(public readonly id: string, public readonly speed: number) {}
 }
 
-export class ExhaustSkullSent implements Action {
-  public readonly type = ActionTypes.ExhaustSkullSent;
+export class ExhaustSent implements Action {
+  public readonly type = ActionTypes.ExhaustSent;
   constructor(public readonly id: string, public readonly speed: number) {}
 }
 
-export class SwitchSkullSent implements Action {
-  public readonly type = ActionTypes.SwitchSkullSent;
+export class SwitchSent implements Action {
+  public readonly type = ActionTypes.SwitchSent;
   constructor(public readonly id: string, public readonly speed: number) {}
 }
 
-export class ConcatSkullSent implements Action {
-  public readonly type = ActionTypes.ConcatSkullSent;
+export class ConcatSent implements Action {
+  public readonly type = ActionTypes.ConcatSent;
   constructor(public readonly id: string, public readonly speed: number) {}
 }
 
-export class MergeSkullReceived implements Action {
-  public readonly type = ActionTypes.MergeSkullReceived;
+export class ConcatReceived implements Action {
+  public readonly type = ActionTypes.ConcatReceived;
   constructor(public readonly id: string) {}
 }
 
-export class ExhaustSkullReceived implements Action {
-  public readonly type = ActionTypes.ExhaustSkullReceived;
-  constructor(public readonly id: string) {}
+export class Received implements Action {
+  public readonly type = ActionTypes.Received;
 }
 
-export class SwitchSkullReceived implements Action {
-  public readonly type = ActionTypes.SwitchSkullReceived;
-  constructor(public readonly id: string) {}
+export class Added implements Action {
+  public readonly type = ActionTypes.Added;
 }
 
-export class ConcatSkullReceived implements Action {
-  public readonly type = ActionTypes.ConcatSkullReceived;
-  constructor(public readonly id: string) {}
+export class Removed implements Action {
+  public readonly type = ActionTypes.Removed;
 }
 
-export class SkullReceived implements Action {
-  public readonly type = ActionTypes.SkullReceived;
+export class AddedChanged implements Action {
+  public readonly type = ActionTypes.AddedChanged;
 }
 
-export class SkullAdded implements Action {
-  public readonly type = ActionTypes.SkullAdded;
+export class PendingChanged implements Action {
+  public readonly type = ActionTypes.PendingChanged;
 }
 
-export class SkullRemoved implements Action {
-  public readonly type = ActionTypes.SkullRemoved;
-}
-
-export class AddedSkullsChanged implements Action {
-  public readonly type = ActionTypes.AddedSkullsChanged;
-}
-
-export class PendingSkullsChanged implements Action {
-  public readonly type = ActionTypes.PendingSkullsChanged;
-}
-
-export class ReceivedSkullsChanged implements Action {
-  public readonly type = ActionTypes.ReceivedSkullsChanged;
+export class ReceivedChanged implements Action {
+  public readonly type = ActionTypes.ReceivedChanged;
 }
 
  
 export type Actions = 
-  | AddSkull
-  | SendSkull
-  | ConcatSkullSent
-  | MergeSkullSent
-  | ExhaustSkullSent
-  | SwitchSkullSent
-  | MergeSkullReceived
-  | ExhaustSkullReceived
-  | SwitchSkullReceived
-  | ConcatSkullReceived
-  | SkullReceived
-  | SkullAdded
-  | SkullRemoved
-  | AddedSkullsChanged
-  | PendingSkullsChanged
-  | ReceivedSkullsChanged;
+  | Add
+  | Send
+  | ConcatSent
+  | MergeSent
+  | ExhaustSent
+  | SwitchSent
+  | ConcatReceived
+  | Received
+  | Added
+  | Removed
+  | AddedChanged
+  | PendingChanged
+  | ReceivedChanged;

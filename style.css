@@ -11,10 +11,11 @@ h1, h2 {
   overflow: hidden;
 }
 
-.skull {
-  background-image: url('https://cdn.pixabay.com/photo/2012/04/12/19/37/skull-and-crossbones-30325_960_720.png');
-  height: 120px;
-  width: 120px;
+.circle {
+  border: 2px solid black;
+  border-radius: 50%;
+  height: 100px;
+  width: 100px;
   background-size: contain;
   position: absolute;
   left: -120px;

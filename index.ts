@@ -8,8 +8,8 @@ import { store$, reducer, State, dispatcher } from './state';
 import { effects } from './effects';
 import * as Actions from './actions';
 
-const addSkullButton = document.getElementById('add-skull') as HTMLButtonElement;
-const sendSkullButton = document.getElementById('send-skull') as HTMLButtonElement;
+const addButton = document.getElementById('add') as HTMLButtonElement;
+const sendButton = document.getElementById('send') as HTMLButtonElement;
 const serieTypeSelector = document.getElementById('serie-type') as HTMLSelectElement;
 const speedSelector = document.getElementById('speed') as HTMLSelectElement;
 const baseSpeed = 2000;
@@ -17,14 +17,14 @@ const getSpeed = () => baseSpeed / parseFloat(speedSelector.options[speedSelecto
 const getSerieType = () => serieTypeSelector.options[serieTypeSelector.selectedIndex].value;
 
 // Actions dispatchers
-const addSkull$ = fromEvent(addSkullButton, 'click').pipe(
-  map(() => new Actions.AddSkull(`skull-${uuid()}`))
+const add$ = fromEvent(addButton, 'click').pipe(
+  map(() => new Actions.Add(`skull-${uuid()}`))
 );
-const sendSkull$ = fromEvent(sendSkullButton, 'click').pipe(
+const send$ = fromEvent(sendButton, 'click').pipe(
   withLatestFrom(store$, (_, state: State) => state),
-  filter((state: State) => state.skulls[0] && state.addedSkulls > state.pendingSkulls),
-  map((state: State) => new Actions.SendSkull(state.skulls[0], getSerieType(), getSpeed()))
+  filter((state: State) => state.skulls[0] && state.added > state.pending),
+  map((state: State) => new Actions.Send(state.skulls[0], getSerieType(), getSpeed()))
 );
 
-merge(addSkull$, sendSkull$).subscribe(dispatcher);
+merge(add$, send$).subscribe(dispatcher);
 merge(...effects).subscribe(dispatcher);

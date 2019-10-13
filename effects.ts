@@ -4,114 +4,114 @@ import { moveRight } from './animation';
 import * as Actions from './actions';
 
 const canvasElem = document.getElementById('canvas');
-const skullsAddedSpan = document.getElementById('skulls-added') as HTMLSpanElement;
-const skullsPendingSpan = document.getElementById('skulls-pending') as HTMLSpanElement;
-const skullsReceivedSpan = document.getElementById('skulls-received') as HTMLSpanElement;
+const addedSpan = document.getElementById('added') as HTMLSpanElement;
+const pendingSpan = document.getElementById('pending') as HTMLSpanElement;
+const receivedSpan = document.getElementById('received') as HTMLSpanElement;
 
-const skullAdded$ = actions$.pipe(
-  filter(({ type }) => type === Actions.ActionTypes.AddSkull),
-  tap(({ id }: Actions.AddSkull) => canvasElem.innerHTML += `<div id="${id}" class="skull"></div>`),
-  map(() => new Actions.SkullAdded()),
+const Added$ = actions$.pipe(
+  filter(({ type }) => type === Actions.ActionTypes.Add),
+  tap(({ id }: Actions.Add) => canvasElem.innerHTML += `<div id="${id}" class="circle"></div>`),
+  map(() => new Actions.Added()),
 );
 
-const addedSkullsChanged$ = actions$.pipe(
+const addedChanged$ = actions$.pipe(
   filter(({ type }) => 
-    type === Actions.ActionTypes.AddSkull || 
-    type === Actions.ActionTypes.MergeSkullSent || 
-    type === Actions.ActionTypes.ExhaustSkullSent ||
-    type === Actions.ActionTypes.SwitchSkullSent ||
-    type === Actions.ActionTypes.ConcatSkullReceived
+    type === Actions.ActionTypes.Add || 
+    type === Actions.ActionTypes.MergeSent || 
+    type === Actions.ActionTypes.ExhaustSent ||
+    type === Actions.ActionTypes.SwitchSent ||
+    type === Actions.ActionTypes.ConcatReceived
   ),
   withLatestFrom(store$, (action, state: State) => state),
-  tap(({ addedSkulls }) => skullsAddedSpan.innerHTML = addedSkulls.toString()),
-  map(() => new Actions.AddedSkullsChanged())
+  tap(({ added }) => addedSpan.innerHTML = added.toString()),
+  map(() => new Actions.AddedChanged())
 );
 
-const pendingSkullsChanged$ = actions$.pipe(
+const pendingChanged$ = actions$.pipe(
   filter(({ type }) => 
-    type === Actions.ActionTypes.SendSkull || 
-    type === Actions.ActionTypes.MergeSkullSent || 
-    type === Actions.ActionTypes.ExhaustSkullSent ||
-    type === Actions.ActionTypes.SwitchSkullSent ||
-    type === Actions.ActionTypes.ConcatSkullReceived
+    type === Actions.ActionTypes.Send || 
+    type === Actions.ActionTypes.MergeSent || 
+    type === Actions.ActionTypes.ExhaustSent ||
+    type === Actions.ActionTypes.SwitchSent ||
+    type === Actions.ActionTypes.ConcatReceived
   ),
   withLatestFrom(store$, (action, state: State) => state),
-  tap(({ pendingSkulls }) => skullsPendingSpan.innerHTML = pendingSkulls.toString()),
-  map(() => new Actions.PendingSkullsChanged())
+  tap(({ pending }) => pendingSpan.innerHTML = pending.toString()),
+  map(() => new Actions.PendingChanged())
 );
 
-const receivedSkullsChanged$ = actions$.pipe(
+const receivedChanged$ = actions$.pipe(
   filter(({ type }) => 
-    type === Actions.ActionTypes.SkullReceived || 
-    type === Actions.ActionTypes.ConcatSkullReceived
+    type === Actions.ActionTypes.Received || 
+    type === Actions.ActionTypes.ConcatReceived
   ),
   withLatestFrom(store$, (action, state: State) => state),
-  tap(({ receivedSkulls }) => skullsReceivedSpan.innerHTML = receivedSkulls.toString()),
-  map(() => new Actions.ReceivedSkullsChanged())
+  tap(({ received }) => receivedSpan.innerHTML = received.toString()),
+  map(() => new Actions.ReceivedChanged())
 );
 
-const skullSent$ = actions$.pipe(
-  filter(({ type }) => type === Actions.ActionTypes.SendSkull),
-  map((action: Actions.SendSkull) => {
-    if (action.serieType === 'MergeSkullSent') {
-      return new Actions.MergeSkullSent(action.id, action.speed);
-    } else if (action.serieType === 'ConcatSkullSent') {
-      return new Actions.ConcatSkullSent(action.id, action.speed);
-    } else if (action.serieType === 'ExhaustSkullSent') {
-      return new Actions.ExhaustSkullSent(action.id, action.speed);
-    } else if (action.serieType === 'SwitchSkullSent') {
-      return new Actions.SwitchSkullSent(action.id, action.speed);
+const Sent$ = actions$.pipe(
+  filter(({ type }) => type === Actions.ActionTypes.Send),
+  map((action: Actions.Send) => {
+    if (action.serieType === 'MergeSent') {
+      return new Actions.MergeSent(action.id, action.speed);
+    } else if (action.serieType === 'ConcatSent') {
+      return new Actions.ConcatSent(action.id, action.speed);
+    } else if (action.serieType === 'ExhaustSent') {
+      return new Actions.ExhaustSent(action.id, action.speed);
+    } else if (action.serieType === 'SwitchSent') {
+      return new Actions.SwitchSent(action.id, action.speed);
     } else {
       return { type: 'Error' };
     }
   })
 );
 
-const concatenatedSkulls$ = actions$.pipe(
-  filter(({ type }) => type === Actions.ActionTypes.ConcatSkullSent),
-  concatMap((action: Actions.ConcatSkullSent) => 
+const concatenated$ = actions$.pipe(
+  filter(({ type }) => type === Actions.ActionTypes.ConcatSent),
+  concatMap((action: Actions.ConcatSent) => 
     moveRight(action.id, 820, action.speed).pipe(
-      map(() => new Actions.ConcatSkullReceived(action.id))
+      map(() => new Actions.ConcatReceived(action.id))
     )
   ),
 );
 
-const mergedSkulls$ = actions$.pipe(
-  filter(({ type }) => type === Actions.ActionTypes.MergeSkullSent),
-  mergeMap((action: Actions.MergeSkullSent) =>
+const merged$ = actions$.pipe(
+  filter(({ type }) => type === Actions.ActionTypes.MergeSent),
+  mergeMap((action: Actions.MergeSent) =>
     moveRight(action.id, 820, action.speed).pipe(
-      map(() => new Actions.SkullReceived())
+      map(() => new Actions.Received())
     )
   ),
 );
 
-const exhaustedSkulls$ = actions$.pipe(
-  filter(({ type }) => type === Actions.ActionTypes.ExhaustSkullSent),
-  exhaustMap((action: Actions.ExhaustSkullSent) =>
+const exhausted$ = actions$.pipe(
+  filter(({ type }) => type === Actions.ActionTypes.ExhaustSent),
+  exhaustMap((action: Actions.ExhaustSent) =>
     moveRight(action.id, 820, action.speed).pipe(
-      map(() => new Actions.SkullReceived())
+      map(() => new Actions.Received())
     )
   )
 );
 
-const switchedSkulls$ = actions$.pipe(
-  filter(({ type }) => type === Actions.ActionTypes.SwitchSkullSent),
-  switchMap((action: Actions.SwitchSkullSent) => 
+const switched$ = actions$.pipe(
+  filter(({ type }) => type === Actions.ActionTypes.SwitchSent),
+  switchMap((action: Actions.SwitchSent) => 
     moveRight(action.id, 820, action.speed).pipe(
       finalize(() => document.getElementById(action.id).style.left = '820px'),
-      map(() => new Actions.SkullReceived()),
+      map(() => new Actions.Received()),
     )
   )
 );
 
 export const effects = [
-  skullAdded$, 
-  addedSkullsChanged$, 
-  pendingSkullsChanged$, 
-  receivedSkullsChanged$, 
-  skullSent$,
-  concatenatedSkulls$, 
-  mergedSkulls$, 
-  exhaustedSkulls$, 
-  switchedSkulls$
+  Added$, 
+  addedChanged$, 
+  pendingChanged$, 
+  receivedChanged$, 
+  Sent$,
+  concatenated$, 
+  merged$, 
+  exhausted$, 
+  switched$
 ];
