@@ -22,8 +22,8 @@ const add$ = fromEvent(addButton, 'click').pipe(
 );
 const send$ = fromEvent(sendButton, 'click').pipe(
   withLatestFrom(store$, (_, state: State) => state),
-  filter((state: State) => state.skulls[0] && state.added > state.pending),
-  map((state: State) => new Actions.Send(state.skulls[0], getSerieType(), getSpeed()))
+  filter((state: State) => state.circles[0] && state.added > state.pending),
+  map((state: State) => new Actions.Send(state.circles[0], getSerieType(), getSpeed()))
 );
 
 merge(add$, send$).subscribe(dispatcher);
