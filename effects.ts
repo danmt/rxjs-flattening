@@ -14,12 +14,6 @@ const skullAdded$ = actions$.pipe(
   map(() => new Actions.SkullAdded()),
 );
 
-const skullRemoved$ = actions$.pipe(
-  filter(({ type }) => type === Actions.ActionTypes.SkullReceived),
-  tap(({ id }: Actions.SkullReceived) => document.getElementById(id).remove()),
-  map(() => new Actions.SkullRemoved())
-);
-
 const addedSkullsChanged$ = actions$.pipe(
   filter(({ type }) => 
     type === Actions.ActionTypes.AddSkull || 
@@ -86,7 +80,7 @@ const mergedSkulls$ = actions$.pipe(
   filter(({ type }) => type === Actions.ActionTypes.MergeSkullSent),
   mergeMap((action: Actions.MergeSkullSent) =>
     moveRight(action.id, 820, action.speed).pipe(
-      map(() => new Actions.SkullReceived(action.id))
+      map(() => new Actions.SkullReceived())
     )
   ),
 );
@@ -95,7 +89,7 @@ const exhaustedSkulls$ = actions$.pipe(
   filter(({ type }) => type === Actions.ActionTypes.ExhaustSkullSent),
   exhaustMap((action: Actions.ExhaustSkullSent) =>
     moveRight(action.id, 820, action.speed).pipe(
-      map(() => new Actions.SkullReceived(action.id))
+      map(() => new Actions.SkullReceived())
     )
   )
 );
@@ -105,7 +99,7 @@ const switchedSkulls$ = actions$.pipe(
   switchMap((action: Actions.SwitchSkullSent) => 
     moveRight(action.id, 820, action.speed).pipe(
       finalize(() => document.getElementById(action.id).style.left = '820px'),
-      map(() => new Actions.SkullReceived(action.id)),
+      map(() => new Actions.SkullReceived()),
     )
   )
 );
