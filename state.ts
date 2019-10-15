@@ -39,7 +39,7 @@ export const reducer = (state, action) => {
         ...state,
         pending: state.pending - 1,
         added: state.added - 1,
-        circles: state.circles.filter((skull) => skull !== action.id)
+        circles: state.circles.filter((circle) => circle !== action.id)
       };
     case Actions.ActionTypes.Received:
       return { 
@@ -52,7 +52,7 @@ export const reducer = (state, action) => {
         pending: state.pending - 1,
         added: state.added - 1,
         received: state.received + 1,
-        circles: state.circles.filter((skull) => skull !== action.id)
+        circles: state.circles.filter((circle) => circle !== action.id)
       };
     default:
       return state;
