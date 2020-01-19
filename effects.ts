@@ -7,7 +7,7 @@ const canvasElem = document.getElementById('canvas');
 const addedSpan = document.getElementById('added') as HTMLSpanElement;
 const pendingSpan = document.getElementById('pending') as HTMLSpanElement;
 const receivedSpan = document.getElementById('received') as HTMLSpanElement;
-const distance = 900;
+const distance = 500;
 
 const Added$ = actions$.pipe(
   filter(({ type }) => type === Actions.ActionTypes.Add),

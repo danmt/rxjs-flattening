@@ -1,32 +1,34 @@
-<div id="canvas" class="canvas">
-</div>
-
-<div>
-  <select id="speed" class="selector">
-    <option value="0.25">0.25x</option>
-    <option value="0.5">0.5x</option>
-    <option value="1" selected>1x</option>
-    <option value="2">2x</option>
-    <option value="4">4x</option>
-  </select>
-  <select id="serie-type" class="selector">
-    <option value="MergeSent">Merge</option>
-    <option value="ConcatSent">Concat</option>
-    <option value="ExhaustSent">Exhaust</option>
-    <option value="SwitchSent">Switch</option>
-  </select>
-  <button id="add" style="display: block; margin: 10px">Add</button>
-  <button id="send" style="display: block; margin: 10px">Send</button>
-
-  <div>
-    Added: <span id="added">0</span>
+<main>
+  <div id="canvas" class="canvas">
   </div>
 
   <div>
-    Pending: <span id="pending">0</span>
-  </div>
+    <select id="speed" class="selector">
+      <option value="0.25">0.25x</option>
+      <option value="0.5">0.5x</option>
+      <option value="1" selected>1x</option>
+      <option value="2">2x</option>
+      <option value="4">4x</option>
+    </select>
+    <select id="serie-type" class="selector">
+      <option value="MergeSent">Merge</option>
+      <option value="ConcatSent">Concat</option>
+      <option value="ExhaustSent">Exhaust</option>
+      <option value="SwitchSent">Switch</option>
+    </select>
+    <button id="add" style="display: block; margin: 10px">Add</button>
+    <button id="send" style="display: block; margin: 10px">Send</button>
 
-  <div>
-    Received: <span id="received">0</span>
+    <div>
+      Added: <span id="added">0</span>
+    </div>
+
+    <div>
+      Pending: <span id="pending">0</span>
+    </div>
+
+    <div>
+      Received: <span id="received">0</span>
+    </div>
   </div>
-</div>
+</main>
